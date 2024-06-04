@@ -38,11 +38,28 @@ def create_order(request):
     form = OrderForm()
     
     if request.method == 'POST':
+        # passing form data to model
         form = OrderForm(request.POST)
         if form.is_valid():
+            # save form data in db
             form.save()
             # redirect to home
             return redirect('/')
         
     context = {'form':form}
     return render(request, 'accounts/order_form.html',context)
+
+def update_order(request,pk):
+    # getting order with id
+    order = Order.objects.get(id=pk)
+    # passing that to form (to know the past data to update)so will get a pre-filled form
+    form = OrderForm(instance=order)
+    
+    if request.method == 'POST':
+        form = OrderForm(request.POST,instance=order)
+        if form.is_valid:
+            form.save()
+            return redirect("/")
+    
+    context = {'form':form}
+    return render(request,'accounts/order_form.html',context)
