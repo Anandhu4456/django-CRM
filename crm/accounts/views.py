@@ -31,3 +31,7 @@ def customers(request,pk):
     order_count = orders.count()
     context = {'customer':customer,'orders':orders,'order_count':order_count}
     return render(request, 'accounts/customers.html',context)
+
+
+def create_order(request):
+    return render(request, 'accounts/order_form.html')
